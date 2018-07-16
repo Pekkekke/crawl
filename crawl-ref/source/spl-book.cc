@@ -740,8 +740,6 @@ bool can_learn_spell(bool silent)
 
 bool learn_spell()
 {
-    if (!can_learn_spell())
-        return false;
 
     spell_list      mem_spells;
     _get_mem_list(mem_spells);
@@ -750,14 +748,17 @@ bool learn_spell()
         return false;
 
     spell_type specspell = _choose_mem_spell();
-
+ 
     if (specspell == SPELL_NO_SPELL)
     {
         canned_msg(MSG_OK);
         return false;
     }
 
-    return learn_spell(specspell);
+    if (!can_learn_spell())
+    return false;
+    
+ return learn_spell(specspell);
 }
 
 /**
